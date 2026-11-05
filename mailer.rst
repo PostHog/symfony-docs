@@ -1737,7 +1737,7 @@ Some providers add their own constraints:
 * **MailerSend** applies the same variables to every recipient of the email;
 * **Mailtrap** doesn't allow a tag (its "category") together with a template;
 * **PostHog** can't send copies, reply-to addresses or attachments together
-  with a template;
+  with a template, and doesn't send tracking settings with it either;
 * **Postmark** reads a numeric reference as a template id and any other
   reference as a template alias.
 
@@ -2698,10 +2698,11 @@ Some providers behave differently:
 * **Azure** has a single toggle for both kinds of tracking: setting either flag
   to ``false`` disables both;
 * **Brevo** doesn't disable tracking, it anonymizes the tracked events instead;
-* **PostHog** has a single toggle for both kinds of tracking, so it refuses an
-  email that sets opens and clicks to different values;
 * **Mailchimp** (Mandrill) over SMTP only accepts a list of tracking features
-  to enable, so a ``null`` flag is disabled when the other one is set explicitly.
+  to enable, so a ``null`` flag is disabled when the other one is set explicitly;
+* **PostHog** has a single toggle for both kinds of tracking, so it refuses an
+  email that sets opens and clicks to different values. Emails sent with a
+  remote template don't send tracking settings.
 
 Resend and Mailtrap configure tracking per domain, Amazon SES via configuration
 sets (the ``X-SES-CONFIGURATION-SET`` header) and MailPace doesn't track emails,
