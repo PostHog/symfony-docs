@@ -106,6 +106,7 @@ Service               Install with                                        Webhoo
 `Mandrill`_           ``composer require symfony/mailchimp-mailer``       yes
 `Microsoft Graph`_    ``composer require symfony/microsoft-graph-mailer``
 `Postal`_             ``composer require symfony/postal-mailer``
+`PostHog`_            ``composer require symfony/post-hog-mailer``
 `Postmark`_           ``composer require symfony/postmark-mailer``        yes
 `PufferPost`_         ``composer require symfony/puffer-post-mailer``
 `Resend`_             ``composer require symfony/resend-mailer``          yes
@@ -121,6 +122,10 @@ Service               Install with                                        Webhoo
     The ``MailKite``, ``PufferPost``, ``TurboSMTP``, ``Cloudflare`` and
     ``Zoho CPaaS`` integrations were introduced in Symfony 8.2.
     Webhook support for ``Scaleway`` was also introduced in Symfony 8.2.
+
+.. versionadded:: 8.3
+
+    The ``PostHog`` integration was introduced in Symfony 8.3.
 
 .. note::
 
@@ -239,6 +244,10 @@ party provider:
 | `Postal`_              | - SMTP n/a                                                                                |
 |                        | - HTTP n/a                                                                                |
 |                        | - API ``postal+api://API_KEY@BASE_URL``                                                   |
++------------------------+-------------------------------------------------------------------------------------------+
+| `PostHog`_             | - SMTP n/a                                                                                |
+|                        | - HTTP n/a                                                                                |
+|                        | - API ``posthog+api://SECRET_KEY@default``                                                |
 +------------------------+-------------------------------------------------------------------------------------------+
 | `Postmark`_            | - SMTP ``postmark+smtp://ID@default``                                                     |
 |                        | - HTTP n/a                                                                                |
@@ -1713,6 +1722,7 @@ Mailgun         template name                   yes
 Mailjet         numeric template id             yes
 Mailtrap        template UUID                   no
 Mandrill        template name                   yes
+PostHog         template UUID                   no
 Postmark        template id or alias            no
 PufferPost      template id                     no
 Resend          template id                     yes
@@ -1726,6 +1736,8 @@ Some providers add their own constraints:
   reference throws an ``InvalidArgumentException``;
 * **MailerSend** applies the same variables to every recipient of the email;
 * **Mailtrap** doesn't allow a tag (its "category") together with a template;
+* **PostHog** can't send copies, reply-to addresses or attachments together
+  with a template;
 * **Postmark** reads a numeric reference as a template id and any other
   reference as a template alias.
 
@@ -2675,6 +2687,7 @@ Mailchimp      yes  yes
 MailerSend     yes  no
 Mailgun        yes  yes
 Mailjet        yes  yes
+PostHog        yes  n/a
 Postmark       yes  yes
 Sendgrid       yes  yes
 Zoho CPaaS     yes  yes
@@ -2685,6 +2698,8 @@ Some providers behave differently:
 * **Azure** has a single toggle for both kinds of tracking: setting either flag
   to ``false`` disables both;
 * **Brevo** doesn't disable tracking, it anonymizes the tracked events instead;
+* **PostHog** has a single toggle for both kinds of tracking, so it refuses an
+  email that sets opens and clicks to different values;
 * **Mailchimp** (Mandrill) over SMTP only accepts a list of tracking features
   to enable, so a ``null`` flag is disabled when the other one is set explicitly.
 
@@ -3089,6 +3104,7 @@ sent by the previous requests of the test.
 .. _`OpenSSL PHP extension`: https://www.php.net/manual/en/book.openssl.php
 .. _`PEM encoded`: https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail
 .. _`Postal`: https://github.com/symfony/symfony/blob/{version}/src/Symfony/Component/Mailer/Bridge/Postal/README.md
+.. _`PostHog`: https://github.com/symfony/symfony/blob/{version}/src/Symfony/Component/Mailer/Bridge/PostHog/README.md
 .. _`Postmark`: https://github.com/symfony/symfony/blob/{version}/src/Symfony/Component/Mailer/Bridge/Postmark/README.md
 .. _`Mailtrap`: https://github.com/symfony/symfony/blob/{version}/src/Symfony/Component/Mailer/Bridge/Mailtrap/README.md
 .. _`PufferPost`: https://github.com/symfony/symfony/blob/{version}/src/Symfony/Component/Mailer/Bridge/PufferPost/README.md
