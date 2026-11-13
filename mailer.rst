@@ -1736,8 +1736,9 @@ Some providers add their own constraints:
   reference throws an ``InvalidArgumentException``;
 * **MailerSend** applies the same variables to every recipient of the email;
 * **Mailtrap** doesn't allow a tag (its "category") together with a template;
-* **PostHog** can't send copies, reply-to addresses or attachments together
-  with a template, and doesn't send tracking settings with it either;
+* **PostHog** can't send a subject, ``Cc``, ``Bcc``, ``Reply-To`` or
+  attachments together with a template, and doesn't send tracking settings
+  with it either;
 * **Postmark** reads a numeric reference as a template id and any other
   reference as a template alias.
 
@@ -2702,8 +2703,9 @@ Some providers behave differently:
   to enable, so a ``null`` flag is disabled when the other one is set explicitly;
 * **PostHog** tracks clicks only together with opens, so its API refuses an
   email that turns clicks on and opens off. A ``null`` flag keeps the default
-  of PostHog, which tracks clicks only in emails that aren't sensitive. Emails
-  sent with a remote template don't send tracking settings.
+  of PostHog, which tracks clicks only in emails that aren't sensitive (the
+  ``X-PostHog-Sensitive`` header in the `PostHog`_ README marks an email as
+  sensitive).
 
 Resend and Mailtrap configure tracking per domain, Amazon SES via configuration
 sets (the ``X-SES-CONFIGURATION-SET`` header) and MailPace doesn't track emails,
