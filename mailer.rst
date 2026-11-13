@@ -2700,9 +2700,10 @@ Some providers behave differently:
 * **Brevo** doesn't disable tracking, it anonymizes the tracked events instead;
 * **Mailchimp** (Mandrill) over SMTP only accepts a list of tracking features
   to enable, so a ``null`` flag is disabled when the other one is set explicitly;
-* **PostHog** has a single toggle for both kinds of tracking, so it refuses an
-  email that sets opens and clicks to different values. Emails sent with a
-  remote template don't send tracking settings.
+* **PostHog** tracks clicks only together with opens, so its API refuses an
+  email that turns clicks on and opens off. A ``null`` flag keeps the default
+  of PostHog, which tracks clicks only in emails that aren't sensitive. Emails
+  sent with a remote template don't send tracking settings.
 
 Resend and Mailtrap configure tracking per domain, Amazon SES via configuration
 sets (the ``X-SES-CONFIGURATION-SET`` header) and MailPace doesn't track emails,
